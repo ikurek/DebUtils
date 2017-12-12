@@ -13,8 +13,8 @@ function setup_environment {
   bf=""
   n=""
   ORGANISATION="Politechnika Wrocławska"
-  URL="http://eduroam.pwr.wroc.pl/"
-  SUPPORT="eduroam@pwr.wroc.pl"
+  URL="https://eduroam.pwr.edu.pl"
+  SUPPORT="wifi@pwr.edu.pl"
 if [ ! -z "$DISPLAY" ] ; then
   if which zenity 1>/dev/null 2>&1 ; then
     ZENITY=`which zenity`
@@ -208,7 +208,7 @@ function user_cred {
 }
 setup_environment
 show_info "Ten instalator został przygotowany dla instytucji: ${ORGANISATION}\n\nWięcej informacji i uwagi:\n\nEMAIL: ${SUPPORT}\nWWW: ${URL}\n\nInstalator został stworzony przy pomocy oprogramowania przygotowanego przez projekt GEANT."
-if ! ask "Ten instalator będzie poprawnie działał tylko jeżeli Twoją instytucją macierzystą jest ${bf}Politechnika Wrocławska.${n}" "Kontynuuj" 1 ; then exit; fi
+if ! ask "Ten instalator będzie poprawnie działał tylko jeżeli Twoją instytucją macierzystą jest ${bf}Politechnika Wrocławska${n} i jesteś członkiem grupy ${bf}eduroam for pwr.edu.pl.${n}" "Kontynuuj" 1 ; then exit; fi
 if [ -d $HOME/.cat_installer ] ; then
    if ! ask "Katalog $HOME/.cat_installer już istnieje; niektóre pliki mogą ulec zmianie." "Kontynuuj" 1 ; then exit; fi
 else
@@ -377,8 +377,8 @@ class EduroamNMConfigTool:
                pass
 
     def add_connection(self,ssid):
-        server_alt_subject_name_list = dbus.Array({'DNS:radius.pwr.wroc.pl'})
-        server_name = 'radius.pwr.wroc.pl'
+        server_alt_subject_name_list = dbus.Array({'DNS:rad01.pwr.edu.pl'})
+        server_name = 'rad01.pwr.edu.pl'
         if self.nm_version == "0.9" or self.nm_version == "1.0":
              match_key = 'altsubject-matches'
              match_value = server_alt_subject_name_list
@@ -409,7 +409,7 @@ class EduroamNMConfigTool:
              match_key: match_value,
             'password': '$PASSWORD',
             'phase2-auth': 'pap',
-            'anonymous-identity': 'anonymous@pwr.wroc.pl',
+            'anonymous-identity': 'anonymous@pwr.edu.pl',
         })
         s_ip4 = dbus.Dictionary({'method': 'auto'})
         s_ip6 = dbus.Dictionary({'method': 'auto'})
@@ -445,10 +445,10 @@ network={
   eap=TTLS
   ca_cert="${HOME}/.cat_installer/ca.pem"
   identity="${USER_NAME}"
-  domain_suffix_match="radius.pwr.wroc.pl"
+  domain_suffix_match="rad01.pwr.edu.pl"
   phase2="auth=PAP"
   password="${PASSWORD}"
-  anonymous_identity="anonymous@pwr.wroc.pl"
+  anonymous_identity="anonymous@pwr.edu.pl"
 }
 EOFW
 chmod 600 $HOME/.cat_installer/cat_installer.conf
